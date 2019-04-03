@@ -1,0 +1,15 @@
+configuration {
+
+    cycle:              true;
+    hide-scrollbar:     true;
+    disable-history:    true;
+    fullscreen:         false;
+    modi:               "drun";
+    show-icons:         true;
+    location: 4;
+    bw: 0;
+    xoffset: -20;
+    width: 30; 
+    lines: 25;
+}
+

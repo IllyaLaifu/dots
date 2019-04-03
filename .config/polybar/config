@@ -1,0 +1,253 @@
+[global/wm]
+margin-top = 0
+
+[colors]
+foreground1 = ${xrdb:foreground:}
+foreground2 = ${xrdb:color7:}
+background1 = ${xrdb:background:}
+background2 = ${xrdb:color8:}
+color-urgent = ${xrdb:color9:}
+
+
+[bar/openbox]
+top = true
+fixed-center = true
+border-size = 0
+; border-color = #00000000
+width = 100%
+height = 28
+radius = 1.0
+
+padding-left = 2
+padding-right = 2
+
+
+; module-margin-right = 1
+; module-margin-left = 2
+
+modules-left = ewmh
+modules-center = mpd
+modules-right = arrow0 pavolume arrow1 memory arrow2 yay-check-updates arrow1 date arrow3 powermenu
+; modules-right = arrow0 pulseaudio arrow1 memory arrow2 yay-check-updates arrow1 date arrow3 powermenu
+; separator = | 
+
+background = ${colors.background1}
+
+foreground = ${xrdb:color4}
+
+line-size = 3
+line-color = #f00
+
+font-0 = FontAwesome:style=Regular:size=10
+font-1 = Fira\ Mono:style=Regular:size=11
+font-2 = Hack:pixelsize=22;2
+font-3 = Source\ Han\ Sans\ JP:style=Regular:size=10
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+
+# Disable tray, for now
+tray-position = right
+tray-detached = false
+tray-maxsize = 25
+tray-background = ${colors.background1}
+tray-offset-x = 0
+tray-offset-y = 0
+tray-padding = 15
+tray-scale = 1.0
+
+[module/date]
+type = internal/date
+date-alt = %A   %H:%M 
+date = %b/%d/%y   %H:%M
+interval = 5
+format-foreground = ${colors.foreground1}
+format-background = ${colors.color-urgent}
+
+
+[module/xwindow]
+type = internal/xwindow
+label = %title%
+label-maxlen = 30
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-unmounted = %mountpoint% not mounted
+
+[module/memory]
+type = internal/memory
+interval = 2
+label = %percentage_used%%
+format = RAM <label>
+format-prefix = " "
+format-prefix-foreground = ${colors.foreground1}
+format-foreground = ${colors.foreground1}
+format-background = ${colors.color-urgent}
+
+[module/ewmh]
+type = internal/xworkspaces
+
+pin-workplaces = false
+
+enable-click = true
+enable-scroll = false
+icon-default =
+format = <label-state>
+
+
+icon-0 = home;
+icon-1 = code;
+icon-2 = games;
+icon-3 = music;
+
+label-active = " %icon% %name% "
+label-active-foreground = ${colors.foreground1}
+label-active-background = ${colors.background1}
+label-active-underline = ${xrdb:color9}
+
+label-occupied = " %icon% %name% "
+label-occupied-underline = ${xrdb:color6}
+
+label-urgent = " %icon% %name% "
+label-urgent-foreground = ${colors.color-urgent}
+label-urgent-underline = ${colors.color-urgent}
+
+label-empty = " %icon% %name% "
+label-empty-foreground = ${xrdb:color7}
+
+
+[module/mpd]
+type = internal/mpd
+format-online =  "<label-song>  <bar-progress>  <icon-random> <icon-prev>  <icon-stop>  <toggle>  <icon-next>"
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+icon-random = 
+label-song-maxlen = 40
+label-song-ellipsis = true
+bar-progress-width = 10
+bar-progress-indicator = 
+bar-progress-fill = 
+bar-progress-empty = 
+bar-progress-fill-foreground = ${xrdb:color2}
+bar-progress-fill-background = ${colors.background1}
+bar-progress-indicator-foreground = ${colors.foreground1}
+
+toggle-on-foreground = ${xrdb:color4}
+toggle-off-foreground = ${xrdb:color1}
+
+
+format-online-foreground = ${colors.foreground1}
+format-online-background = ${colors.background1}
+
+[module/powermenu]
+type = custom/menu
+
+format-spacing = 1
+
+label-open = 
+label-open-foreground = ${xrdb:color9}
+label-close = 
+label-close-foreground = ${xrdb:color5}
+label-separator =|
+label-separator-foreground = ${colors.background1}
+
+menu-0-0 = 
+menu-0-0-exec = menu-open-1
+menu-0-1 = 
+menu-0-1-exec = menu-open-2
+menu-1-0 = 
+menu-1-0-exec = menu-open-0
+menu-1-1 =  
+menu-1-1-exec = reboot
+menu-2-0 = 
+menu-2-0-exec = shutdown -h now
+menu-2-1 = 
+menu-2-1-exec = menu-open-0
+
+[module/pulseaudio]
+type = internal/pulseaudio
+format-volume = <ramp-volume> <label-volume>
+label-muted =   muted
+format-foreground = ${xrdb:color9}
+format-background =  ${xrdb:color5}
+ramp-volume-0 = 
+ramp-volume-1 =  
+ramp-volume-2 = 
+[module/pavolume]
+type = custom/script
+tail = true
+label = %output%
+exec = ~/.config/polybar/scripts/pavolume.sh --listen
+click-right = ~/.config/polybar/scripts/pavolume.sh --mute
+click-left = exec pavucontrol
+scroll-up = ~/.config/polybar/scripts/pavolume.sh --up
+scroll-down = ~/.config/polybar/scripts/pavolume.sh --down
+format-foreground = ${xrdb:color9}
+format-background = ${xrdb:color5}
+
+
+[module/check-updates]
+type = custm/script
+exec = ./scripts/updates-arch.sh
+interval = 600
+
+
+[module/yay-check-updates]
+type = custom/script
+exec = ~/.config/polybar/scripts/updates-arch-combined.sh
+interval = 600
+format-prefix =   
+format-background = ${xrdb:color5}
+format-foreground = ${colors.color-urgent}
+
+;-------------------------------
+; ARROWS
+;-------------------------------
+
+[module/arrow0]
+; background to color1
+type = custom/text
+content = " "
+content-font = 3
+content-foreground = ${xrdb:color5}
+content-background = ${colors.background1}
+
+
+[module/arrow1]
+; color1 to color2
+type = custom/text
+content = " "
+content-font = 3
+content-foreground = ${colors.color-urgent}
+content-background = ${xrdb:color5}
+
+
+[module/arrow2]
+; color2 to color1
+type = custom/text
+content = " "
+content-font = 3
+content-foreground = ${xrdb:color5}
+content-background = ${colors.color-urgent}
+
+
+[module/arrow3]
+type = custom/text
+content = " "
+content-font = 3
+content-foreground = ${colors.background1}
+content-background = ${colors.color-urgent}
+
+
+; vim:ft=dosini
+
+
